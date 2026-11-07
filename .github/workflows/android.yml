@@ -1,0 +1,39 @@
+name: Android CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Get prebuilt libraries
+      uses: dawidd6/action-download-artifact@v6
+      continue-on-error: false
+      with:
+        # todo: change
+        repo: Yarpopcat08/Zstd-AAR
+        workflow: build.yml
+        workflow_conclusion: success
+        name: libraries-release
+        path: app/libs
+
+      
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: |
+        ./gradlew assembleDebug
+    - name: Upload APK
+     uses: actions/upload-artifact@v4
+      with:
+        name: MJNativesPlugin
+        path: app/build/outputs/apk/debug/app-debug.apk
