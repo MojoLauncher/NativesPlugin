@@ -19,8 +19,7 @@ jobs:
       uses: dawidd6/action-download-artifact@v6
       continue-on-error: false
       with:
-        # todo: change
-        repo: Yarpopcat08/Zstd-AAR
+        repo: MojoLauncher/NativesBuilder
         workflow: build.yml
         workflow_conclusion: success
         name: libraries-release
