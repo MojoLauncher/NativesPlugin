@@ -31,8 +31,16 @@ jobs:
     - name: Build with Gradle
       run: |
         ./gradlew assembleDebug
+        mv app/build/outputs/apk/debug/app-debug.apk MJNativesPlugin-debug.apk
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: MJNativesPlugin
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: MJNativesPlugin-debug.apk
+    - name: Release APK
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: rel
+        name: Mojo Natives Plugin
+        files: |
+          MJNativesPlugin-debug.apk
